@@ -1,6 +1,6 @@
 import React from 'react'; // eslint-disable-line import/no-extraneous-dependencies, no-use-before-define
 import {
-    Image, TextInput, TouchableOpacity, View
+    Image, TextInput, TouchableOpacity, View, Text
 } from 'react-native';
 import Country from './country';
 import Flags from './resources/flags';
@@ -221,6 +221,14 @@ export default class PhoneInput<TextComponentType extends React.ComponentType = 
         this.inputPhone.blur();
     }
 
+    getFlagEmoji = (countryCode) => {
+        const codePoints = countryCode
+            .toUpperCase()
+            .split('')
+            .map((char) => 127397 + char.charCodeAt());
+        return String.fromCodePoint(...codePoints);
+    }
+
     render() {
         const { iso2, displayValue, disabled } = this.state;
         const country = this.getAllCountries().find((c) => c.iso2 === iso2);
@@ -240,11 +248,12 @@ export default class PhoneInput<TextComponentType extends React.ComponentType = 
                             })}
                         </>
                     ) : (
-                        <Image
-                            accessibilityIgnoresInvertColors={true}
-                            source={Flags.get(iso2)}
-                            style={[styles.flag, this.props.flagStyle]}
-                        />
+                        // <Image
+                        //     accessibilityIgnoresInvertColors={true}
+                        //     source={Flags.get(iso2)}
+                        //     style={[styles.flag, this.props.flagStyle]}
+                        // />
+                        <Text style={[styles.flag, this.props.flagStyle]}>{this.getFlagEmoji(iso2)}</Text>
                     )}
                 </TouchableOpacity>
                 <View style={{ flex: 1, marginLeft: this.props.offset || 10 }}>
