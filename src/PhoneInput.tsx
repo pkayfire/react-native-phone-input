@@ -46,7 +46,7 @@ export default class PhoneInput<TextComponentType extends React.ComponentType = 
         } else {
             const countryData = PhoneNumber.getCountryDataByCode(initialCountry);
             initialValue = countryData ? `+${countryData.dialCode}` : '';
-            displayValue = initialValue;
+            displayValue = '';
         }
 
         this.state = {
@@ -111,7 +111,7 @@ export default class PhoneInput<TextComponentType extends React.ComponentType = 
     }
 
     getValue(text?) {
-        return text ? text.replace(/[^0-9]/g, '') : this.state.value;
+        return text ? text.replace(/[^0-9+]/g, '') : this.state.value;
     }
 
     getNumberType() {
@@ -165,9 +165,6 @@ export default class PhoneInput<TextComponentType extends React.ComponentType = 
         let modifiedNumber = this.getValue(number);
         const { allowZeroAfterCountryCode } = this.props;
 
-        if (modifiedNumber[0] !== '+' && number.length) {
-            modifiedNumber = `+${modifiedNumber}`;
-        }
         modifiedNumber = allowZeroAfterCountryCode
             ? modifiedNumber
             : this.possiblyEliminateZeroAfterCountryCode(modifiedNumber);
@@ -177,17 +174,24 @@ export default class PhoneInput<TextComponentType extends React.ComponentType = 
         if (iso2) {
             const countryData = PhoneNumber.getCountryDataByCode(iso2);
             countryDialCode = countryData.dialCode;
+        } else {
+            const countryData = PhoneNumber.getCountryDataByCode(this.state.iso2);
+            countryDialCode = countryData.dialCode;
         }
 
         let displayValue;
         if (modifiedNumber === `+${countryDialCode}`) {
             displayValue = modifiedNumber;
-        } else {
-            displayValue = this.format(modifiedNumber);
+        } else if (modifiedNumber !== this.state.displayValue) {
+            displayValue = this.format(modifiedNumber, this.state.iso2);
+        }
+
+        if (modifiedNumber[0] !== '+' && modifiedNumber.length > 1) {
+            modifiedNumber = `+${countryDialCode}${modifiedNumber}`;
         }
 
         this.setState({
-            iso2,
+            iso2: iso2 || this.state.iso2,
             displayValue,
             value: modifiedNumber,
         }, () => {

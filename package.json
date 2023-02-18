@@ -29,7 +29,7 @@
     "android"
   ],
   "dependencies": {
-    "google-libphonenumber": "^3.2.31",
+    "google-libphonenumber": "^3.2.32",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1"
   },
