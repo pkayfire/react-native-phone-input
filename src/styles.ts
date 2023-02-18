@@ -36,7 +36,7 @@ export default StyleSheet.create({
         width: SCREEN_WIDTH,
     },
     flag: {
-        fontSize: 28,
+        fontSize: 32,
         height: 36,
         width: 30,
         borderColor: '#ffffff00',
