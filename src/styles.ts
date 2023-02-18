@@ -9,7 +9,6 @@ export default StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-    // borderWidth:1,
     },
     mainBox: {
 
@@ -37,12 +36,11 @@ export default StyleSheet.create({
         width: SCREEN_WIDTH,
     },
     flag: {
-        height: 20,
+        fontSize: 28,
+        height: 36,
         width: 30,
-        borderRadius: 2,
-        borderWidth: 0.5,
-        borderColor: '#cecece',
-        backgroundColor: '#cecece',
+        borderColor: '#ffffff00',
+        backgroundColor: '#ffffff00',
     },
     text: {
         height: 20,
